@@ -35,7 +35,7 @@ if (process.env.NODE_ENV === 'production') {
   });
 }
 
-// \ô/ CORS errors begone!
+// \ô/ CORS errors begone! listen to the http server, not the express app
 // https://github.com/socketio/socket.io/issues/2850#issuecomment-386624121
 http.listen(port, () => {
   console.log(`Listening on port ${port}`)

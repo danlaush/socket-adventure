@@ -19,12 +19,10 @@ class App extends Component {
       .catch(err => {
         console.log('error fetching data', err)
       })
-
-    // if user is running mozilla then use it's built-in WebSocket
-    // window.WebSocket = window.WebSocket || window.MozWebSocket
-
-    // const connection = new WebSocket('ws://127.0.0.1:3000')
+    
     const socket = socketIOClient(this.state.endpoint);
+
+    socket.on("updateMessages", data => this.setState({ response: data }));
   }
 
   callApi = async () => {
@@ -37,6 +35,7 @@ class App extends Component {
   }
 
   render() {
+    const { fetched } = this.state
     return (
       <div className="App">
         <header className="App-header">
@@ -44,7 +43,7 @@ class App extends Component {
           <h1 className="App-title">Welcome to React</h1>
         </header>
         <p className="App-intro">
-          To get started, edit <code>src/App.js</code> and save to reload. {this.state.fetched}
+          To get started, edit <code>src/App.js</code> and save to reload. {fetched}
         </p>
       </div>
     );
