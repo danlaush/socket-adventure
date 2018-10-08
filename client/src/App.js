@@ -22,7 +22,7 @@ class App extends Component {
     
     const socket = socketIOClient(this.state.endpoint);
 
-    socket.on("updateMessages", data => this.setState({ response: data }));
+    socket.on("update", data => this.setState({ response: data }));
   }
 
   callApi = async () => {
