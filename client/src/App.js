@@ -1,31 +1,47 @@
-import React, { Component } from 'react';
-import socketIOClient from 'socket.io-client'
-import logo from './logo.svg';
-import './App.css';
+import React, { Component } from 'react'
+import logo from './logo.svg'
+import './App.css'
+import {
+  socketConnection,
+  sendWelcome
+} from './lib/api'
 
 class App extends Component {
-  state = {
-    socketUrl: 'ws://localhost:5000',
-    fetched: ''
+
+  constructor(props) {
+    super(props)
+
+    socketConnection({
+      update: (update) => {
+        console.log('got an update', update)
+      },
+      history: (history) => {
+        console.log('got the history', history)
+        
+      }
+    })
+
+    this.state = {
+      // fetched: '',
+      name: ''
+    }
   }
 
   componentDidMount() {
-    const requestedName = prompt('What is your user name?');
-    const name = requestedName ? requestedName : 'wander_one';
-    
-    this.callApi()
-      .then(res => {
-        this.setState({
-          fetched: res.myString
-        })
-      })
-      .catch(err => {
-        console.log('error fetching data', err)
-      })
-    
-    const socket = socketIOClient(this.state.socketUrl);
+    const requestedName = prompt('What is your user name?')
+    this.name = requestedName ? requestedName : 'wander_one'
 
-    socket.on("update", data => this.setState({ response: data }));
+    sendWelcome(this.name)
+    
+    // this.callApi()
+    //   .then(res => {
+    //     this.setState({
+    //       fetched: res.myString
+    //     })
+    //   })
+    //   .catch(err => {
+    //     console.log('error fetching data', err)
+    //   })
   }
 
   callApi = async () => {
@@ -38,7 +54,7 @@ class App extends Component {
   }
 
   render() {
-    const { fetched } = this.state
+    // const { fetched } = this.state
     return (
       <div className="App">
         <header className="App-header">
@@ -46,7 +62,8 @@ class App extends Component {
           <h1 className="App-title">Welcome to React</h1>
         </header>
         <p className="App-intro">
-          To get started, edit <code>src/App.js</code> and save to reload. {fetched}
+          <button onClick={this.joinRoom}>Click</button> To get started, edit <code>src/App.js</code> and save to reload.
+          {/* {fetched} */}
         </p>
       </div>
     );
