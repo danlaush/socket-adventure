@@ -5,11 +5,14 @@ import './App.css';
 
 class App extends Component {
   state = {
-    endpoint: 'ws://localhost:5000',
+    socketUrl: 'ws://localhost:5000',
     fetched: ''
   }
 
   componentDidMount() {
+    const requestedName = prompt('What is your user name?');
+    const name = requestedName ? requestedName : 'wander_one';
+    
     this.callApi()
       .then(res => {
         this.setState({
@@ -20,7 +23,7 @@ class App extends Component {
         console.log('error fetching data', err)
       })
     
-    const socket = socketIOClient(this.state.endpoint);
+    const socket = socketIOClient(this.state.socketUrl);
 
     socket.on("update", data => this.setState({ response: data }));
   }

@@ -1,11 +1,29 @@
+process.title = 'socket-server'
+
 const express = require('express')()
-const http = require('http').Server(express);
+const http = require('http').Server(express)
 const io = require('socket.io')(http)
 
 const port = process.env.PORT || 5000
 
+const history = [
+  'this is a history',
+  'of some messages',
+  'in chat'
+]
+const clients = []
+
 io.on('connection', connection => {
   console.log(new Date(), '- new connection', connection.id)
+  const index = clients.push(connection) - 1;
+  const userName = false;
+  const userColor = false;
+
+  // send back chat history
+  if (history.length > 0) {
+    connection.sendUTF(
+        JSON.stringify({ type: 'history', data: history} ));
+  }
 
   // message listener
   connection.on('message', message => {
@@ -38,5 +56,5 @@ if (process.env.NODE_ENV === 'production') {
 // \ô/ CORS errors begone! listen to the http server, not the express app
 // https://github.com/socketio/socket.io/issues/2850#issuecomment-386624121
 http.listen(port, () => {
-  console.log(`Listening on port ${port}`)
+  console.log(`${new Date()} Listening on port ${port}`)
 })
