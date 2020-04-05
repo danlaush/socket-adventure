@@ -1,22 +1,25 @@
-import socketIOClient from 'socket.io-client'
-const socketUrl = 'ws://localhost:5000'
-const socket = socketIOClient(socketUrl)
+import socketIOClient from "socket.io-client";
+const socketUrl = "https://a4b3aa16.ngrok.io";
+const socket = socketIOClient(socketUrl);
 
 const socketConnection = (config) => {
-    const methods = {
-        update: config.update,
-        history: config.history
-    }
-    
-    socket.on("update", data => methods.update(data))
-    socket.on("history", data => methods.history(data))
-}
+  const methods = {
+    updateUsers: config.updateUsers,
+    setIdentity: config.setIdentity,
+    newMessage: config.newMessage,
+  };
+
+  socket.on("updateUsers", (users) => methods.updateUsers(users));
+  socket.on("identity", (user) => methods.setIdentity(user));
+  socket.on("newMessage", (message) => methods.newMessage(message));
+};
 
 const sendWelcome = (name) => {
-    socket.emit('welcome', name)
-}
+  socket.emit("welcome", name);
+};
 
-export { 
-    socketConnection,
-    sendWelcome
-}
+const sendMessage = (message) => {
+  socket.emit("message", message);
+};
+
+export { socketConnection, sendWelcome, sendMessage };
