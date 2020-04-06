@@ -10,7 +10,7 @@ Learning to work with WebSockets. Currently, a chat room. Join the room, see who
 yarn && yarn develop
 ```
 
-This will run `yarn server` and `yarn client` concurrently. You may find it easier to run the two commands in different terminal tabs. You will also need to change `socketUrl` in `./client/src/lib/api.js` to `http://localhost:500`. The ngrok URL was temporary to get it working across devies.
+This will run `yarn server` and `yarn client` concurrently. You may find it easier to run the two commands in different terminal tabs. You will also need to change `socketUrl` in `./client/src/lib/api.js` to `http://localhost:5000`. The ngrok URL was temporary to get it working across devies.
 
 ### Production
 
