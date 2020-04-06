@@ -1,6 +1,34 @@
 # Socket Adventure
 
-This is a project where I'm exploring some topics in web development by trying them out.
+Learning to work with WebSockets. Currently, a chat room. Join the room, see who's online, and send messages to the group. I'd like to incorporate a game element, to learn more about the game loop and how to facilitate real-time interaction between people.
+
+## Getting started
+
+### Dev mode
+
+```
+yarn && yarn develop
+```
+
+This will run `yarn server` and `yarn client` concurrently. You may find it easier to run the two commands in different terminal tabs. You will also need to change `socketUrl` in `./client/src/lib/api.js` to `http://localhost:500`. The ngrok URL was temporary to get it working across devies.
+
+### Production
+
+Not permanently online, as this is an experiment. To run locally but let other devices to connect to the server the whole thing must be run through ngrok. This lets users connect to the socket securely.
+
+1. Start an ngrok tunnel to get its URL
+
+`ngrok http 5000 -host-header="localhost:5000"`
+
+2. Edit `socketUrl` in `./client/src/lib/api.js` with the above URL
+
+3. Build and run:
+```
+cd client && yarn build
+cd .. && NODE_ENV=production yarn server
+```
+
+## Learnings
 
 | **Brand new** | **Expanding existing** |
 | --- | --- |
